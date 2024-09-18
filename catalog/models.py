@@ -48,13 +48,15 @@ class Product(models.Model):
     )
     price = models.FloatField(verbose_name="Цена", help_text="Введите цену продукта")
     created_at = models.DateField(
-        verbose_name="Дата создания", help_text="Введите дату создания продукта"
+        verbose_name="Дата создания", help_text="Введите дату создания продукта",
+        auto_now_add=True
     )
     updated_at = models.DateField(
         verbose_name="Дата последнего изменения",
         help_text="Введите дату последнего изменения продукта",
         blank=True,
         null=True,
+        auto_now=True
     )
     manufactured_at = models.DateField(
         verbose_name="Дата производства продукта нашего",
@@ -71,6 +73,63 @@ class Product(models.Model):
     class Meta:
         verbose_name = "Продукт"
         verbose_name_plural = "Продукты"
+        ordering = ["category", "name"]
+
+    def __str__(self):
+        return self.name
+
+class Version(models.Model):
+    product = models.ForeignKey(
+        Product,
+        related_name="versions",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Версия",
+    )
+
+    name = models.CharField(
+        max_length=100,
+        verbose_name="Наименование",
+        help_text="Введите наименование продукта",
+    )
+
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.SET_NULL,
+        verbose_name="Категория",
+        help_text="Введите категорию продукта",
+        null=True,
+        blank=True,
+        related_name="version_product",
+    )
+
+    version_num = models.PositiveIntegerField(
+        verbose_name="Номер версии",
+        help_text="Укажите номер версии продукта",
+        default=0,
+        null=True,
+        blank=True,
+    )
+
+    version_name = models.CharField(
+        max_length=100,
+        verbose_name="Наименование версии",
+        help_text="Введите наименование версии продукта",
+        default="",
+        null=True,
+        blank=True,
+    )
+
+    active = models.BooleanField(
+        verbose_name="Признак текущей версии",
+        help_text="Введите признак текущей версии продукта",
+        default=False
+    )
+
+    class Meta:
+        verbose_name = "Версия продукта"
+        verbose_name_plural = "Версии продукта"
         ordering = ["category", "name"]
 
     def __str__(self):

@@ -19,26 +19,25 @@ class ProductForm(StyleFormMixin, ModelForm):
         model = Product
         # fields = '__all__'
         exclude = ("views_counter",)
-    lock_words = ["казино", "криптовалюта", "крипта", "биржа", "дешево", "бесплатно", "обман", "полиция", "радар"]
+
 
     def clean_name(self):
-        product_name = self.cleaned_data["name"]
-        name_list = product_name.split()
-        for part_name in name_list:
-            for part_name in self.lock_words:
-                if part_name.lower() in product_name.lower():
-                    raise ValidationError(f"В названии продукта не должно быть слова '{part_name}' ")
-        return product_name
+        cleaned_data = self.cleaned_data['name']
+        forbidden_words = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция',
+                           'радар']
+        for word in forbidden_words:
+            if word in cleaned_data.lower():
+                raise ValidationError('Извините, но наименование продукта не может содержать запрещенные слова.')
+        return cleaned_data
 
     def clean_description(self):
-        description = self.cleaned_data["description"]
-        description_list = description.split()
-        for part_description in description_list:
-            for part_description in self.lock_words:
-                if part_description.lower() in description.lower():
-                    raise ValidationError(f"В описании продукта не должно быть слова '{part_description}' ")
-
-        return description
+        cleaned_data = self.cleaned_data['description']
+        forbidden_words = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция',
+                           'радар']
+        for word in forbidden_words:
+            if word in cleaned_data.lower():
+                raise ValidationError('Извините, но наименование продукта не может содержать запрещенные слова.')
+        return cleaned_data
 
 
 class VersionForm(StyleFormMixin, ModelForm):

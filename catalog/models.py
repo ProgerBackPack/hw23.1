@@ -15,9 +15,10 @@ class Category(models.Model):
     class Meta:
         verbose_name = "Категория"
         verbose_name_plural = "Категории"
+        ordering = ("name",)
 
     def __str__(self):
-        return self.name
+        return f"{self.name} {self.description}"
 
 
 class Product(models.Model):
@@ -76,7 +77,7 @@ class Product(models.Model):
         ordering = ["category", "name"]
 
     def __str__(self):
-        return self.name
+        return f"{self.name} {self.description} {self.price} {self.category}"
 
 class Version(models.Model):
     product = models.ForeignKey(
@@ -133,4 +134,4 @@ class Version(models.Model):
         ordering = ["category", "name"]
 
     def __str__(self):
-        return self.name
+        return f"{self.product} {self.version_num} {self.version_name} {self.active}"

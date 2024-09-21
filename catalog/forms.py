@@ -46,3 +46,4 @@ class VersionForm(StyleFormMixin, ModelForm):
         model = Version
         fields = '__all__'
         # exclude = ("views_counter",)
+

@@ -89,22 +89,6 @@ class Version(models.Model):
         verbose_name="Версия",
     )
 
-    name = models.CharField(
-        max_length=100,
-        verbose_name="Наименование",
-        help_text="Введите наименование продукта",
-    )
-
-    category = models.ForeignKey(
-        Category,
-        on_delete=models.SET_NULL,
-        verbose_name="Категория",
-        help_text="Введите категорию продукта",
-        null=True,
-        blank=True,
-        related_name="version_product",
-    )
-
     version_num = models.PositiveIntegerField(
         verbose_name="Номер версии",
         help_text="Укажите номер версии продукта",
@@ -131,7 +115,6 @@ class Version(models.Model):
     class Meta:
         verbose_name = "Версия продукта"
         verbose_name_plural = "Версии продукта"
-        ordering = ["category", "name"]
 
     def __str__(self):
         return f"{self.product} {self.version_num} {self.version_name} {self.active}"

@@ -29,7 +29,7 @@ class Product(models.Model):
         help_text="Введите наименование продукта",
     )
     description = models.TextField(
-        verbose_name="Описание", help_text="Введите описание продукта"
+        verbose_name="Описание", help_text="Введите описание продукта", blank=True, null=True,
     )
     photo = models.ImageField(
         upload_to="catalog/photo",
@@ -75,6 +75,10 @@ class Product(models.Model):
         verbose_name = "Продукт"
         verbose_name_plural = "Продукты"
         ordering = ["category", "name"]
+        permissions = [
+            ("can_edit_category", "Can edit category"),
+            ("can_edit_description", "Can edit description")
+        ]
 
     def __str__(self):
         return f"{self.name} {self.description} {self.price} {self.category}"

@@ -46,3 +46,8 @@ class VersionForm(StyleFormMixin, ModelForm):
         fields = '__all__'
         # exclude = ("views_counter",)
 
+class ProductAdminForm(StyleFormMixin, ModelForm):
+    class Meta:
+        model = Product
+        fields = ('description', 'category')
+

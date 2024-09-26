@@ -5,9 +5,13 @@ from users.models import User
 
 class Command(BaseCommand):
     def handle(self, *args, **kwargs):
-        user = User.objects.create(email="admin@example.com")
-        user.set_password("123qwe")
-        user.is_active = True
-        user.is_Staff = True
-        user.is_superuser = True
+        user = User.objects.create(
+            email='admin@example.com',
+            first_name='Admin',
+            last_name='God',
+            is_staff=True,
+            is_superuser=True
+        )
+
+        user.set_password('291094')
         user.save()
